@@ -5,6 +5,12 @@
 	<groupId>TestYanthra</groupId>
 	<artifactId>Com.DemoWebshop_Subbu</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+    <maven.compiler.source>25</maven.compiler.source>
+    <maven.compiler.target>25</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties> 
+ 
 	<dependencies>
 		<!-- Source:
 		https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
@@ -13,7 +19,7 @@
 			<artifactId>selenium-java</artifactId>
 			<version>4.51.0</version>
 
-		</dependency>
+		</dependency>   
 		<!-- Source:
 		https://mvnrepository.com/artifact/com.aventstack/extentreports -->
 		<dependency>
