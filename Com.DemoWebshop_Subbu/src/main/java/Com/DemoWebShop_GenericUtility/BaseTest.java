@@ -24,119 +24,99 @@ import Com.WebShop_POM.Home_Page;
 import Com.WebShop_POM.Login_Page;
 import Com.WebShop_POM.WelcomePage;
 
-public class BaseTest 
-{
-	
-		public WebDriver driver;
-		public static WebDriver sDriver;
-		public  ExtentSparkReporter spark;
-		public ExtentReports reports;
-		public	ExtentTest test;
-		public	FileUtility  fileutility = new FileUtility();
-		public WelcomePage welcomepage;
-		public  Login_Page loginpage;
-		public Home_Page homepage;
-		public	Webdriver_utility webdriverutility = new Webdriver_utility();
-		
+public class BaseTest {
+
+	public WebDriver driver;
+	public static WebDriver sDriver;
+	public ExtentSparkReporter spark;
+	public ExtentReports reports;
+	public ExtentTest test;
+	public FileUtility fileutility = new FileUtility();
+	public WelcomePage welcomepage;
+	public Login_Page loginpage;
+	public Home_Page homepage;
+	public Webdriver_utility webdriverutility = new Webdriver_utility();
+
 	@BeforeSuite
-	public void beforeSuite()
-	{
+	public void beforeSuite() {
 		System.out.println("Before Suite ---DataBase Connection open");
 	}
 
 	@BeforeTest
-	public void beforeTest()
-	{
+	public void beforeTest() {
 		System.out.println("Before Test ---Report  Generation");
-        spark = new ExtentSparkReporter(FrameWorkConstant.reportPath);
-        reports=new ExtentReports();
-        reports.attachReporter(spark);
-        test=reports.createTest("DemoWebshop");
-        
+		spark = new ExtentSparkReporter(FrameWorkConstant.reportPath);
+		reports = new ExtentReports();
+		reports.attachReporter(spark);
+		test = reports.createTest("DemoWebshop");
+
 	}
 
 	@BeforeClass
-	public void beforeClass() throws IOException
-	{
+	public void beforeClass() throws IOException {
 		System.out.println("Before Class ---Launch Browser");
-		
-		String browser = fileutility.readDataFromPropertyFile("browsername");
-	    String Url = fileutility.readDataFromPropertyFile("url");
-		
-     //	String browser= System.getProperty("browserName");
-     //	String Url=System.getProperty("baseUrl");
-		
-		
-		if(browser.equalsIgnoreCase("chrome"))
-		{
+
+		// String browser = fileutility.readDataFromPropertyFile("browsername");
+		// String Url = fileutility.readDataFromPropertyFile("url");
+
+		String browser = System.getProperty("browserName");
+		String Url = System.getProperty("baseUrl");
+
+		if (browser.equalsIgnoreCase("chrome")) {
 			System.out.println("Running the test on chrome brower");
-			driver=new ChromeDriver();
-		}
-		else if(browser.equalsIgnoreCase("edge"))
-		{
+			driver = new ChromeDriver();
+		} else if (browser.equalsIgnoreCase("edge")) {
 			System.out.println("Running the test on edge brower");
-			driver=new EdgeDriver();
-		}
-		else if(browser.equalsIgnoreCase("firefox"))
-		{
+			driver = new EdgeDriver();
+		} else if (browser.equalsIgnoreCase("firefox")) {
 			System.out.println("Running the test on firefox brower");
-			driver=new FirefoxDriver();
+			driver = new FirefoxDriver();
 		}
-		
-		else
-		{
-			System.out.println("Please pass the correct browser :"+browser);
+
+		else {
+			System.out.println("Please pass the correct browser :" + browser);
 		}
-		sDriver=driver;
+		sDriver = driver;
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 		driver.get(Url);
-		
-	}
 
+	}
 
 	@BeforeMethod
 
-	public void beforemethod() throws IOException
-	{
+	public void beforemethod() throws IOException {
 		System.out.println("Before method ---Login to App");
-		welcomepage =new WelcomePage(driver);
+		welcomepage = new WelcomePage(driver);
 		welcomepage.getLoginbtn().click();
-		
-		loginpage = new  Login_Page(driver);
+
+		loginpage = new Login_Page(driver);
 		loginpage.getEmailTextField().sendKeys(fileutility.readDataFromPropertyFile("username"));
 		loginpage.getPassworTextField().sendKeys(fileutility.readDataFromPropertyFile("password"));
 		loginpage.getLoginButton().click();
-		homepage= new Home_Page(driver);
-		
-	} 
+		homepage = new Home_Page(driver);
+
+	}
 
 	@AfterMethod
-	public void afterMethod()
-	{
+	public void afterMethod() {
 		System.out.println("After Method ---Logout from App");
 	}
+
 	@AfterClass
-	public void afterclass()
-	{
+	public void afterclass() {
 		System.out.println("After class ---close browser");
 		driver.quit();
 	}
 
 	@AfterTest
-	public void afterTest()
-	{
+	public void afterTest() {
 		System.out.println("After Test ---Reports End");
 	}
 
 	@AfterSuite
-	public void afterSuite()
-	{
+	public void afterSuite() {
 		System.out.println("After Suite ---Database connection closed");
 	}
 
-
-	}
-
-
-
+}
